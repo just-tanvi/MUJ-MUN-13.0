@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import mujLogo from './assets/muj_logo.png';
 import sdgLogo from './assets/sdg_logo.png';
 import litmusLogo from './assets/litmus_logo.png';
 import mujmunLogo from './assets/MUJMUN_logo.png';
+import strikeSound from './assets/gavel-hammered-in-court-sound-effect_Ot6CjSaS.mp3';
+import noiseSound from './assets/noise.mp3';
 
 // Golden Gavel SVG Component (Normal T-shape: mallet head horizontal, handle vertical)
 const GavelSVG = () => (
@@ -102,14 +104,37 @@ function App() {
   const particlesRef = useRef(null);
   const contentWrapperRef = useRef(null);
 
+  // Audio refs & states to unlock sound context
+  const [started, setStarted] = useState(false);
+  const strikeAudioRef = useRef(null);
+  const bgMusicRef = useRef(null);
+  const timelineRef = useRef(null);
+
+  // Preload audio files on mount
+  useEffect(() => {
+    strikeAudioRef.current = new Audio(strikeSound);
+    strikeAudioRef.current.load();
+
+    bgMusicRef.current = new Audio(noiseSound);
+    bgMusicRef.current.load();
+  }, []);
+
+  // Trigger play on started state change
+  useEffect(() => {
+    if (started && timelineRef.current) {
+      timelineRef.current.play();
+    }
+  }, [started]);
+
   useGSAP(() => {
     // Initial States
     // Gavel starts raised on the right, tilted up (45deg) and transparent
-    gsap.set(gavelRef.current, { y: -350, x: 135, rotation: 45, opacity: 0, scale: 1.25 });
+    // Gavel starts raised on the right, tilted up (45deg) and transparent
+    gsap.set(gavelRef.current, { y: -window.innerHeight / 2 - 150, x: 135, rotation: 45, opacity: 0, scale: 1.25 });
     gsap.set(gavelBaseRef.current, { rotationX: 0, scale: 0, opacity: 0 });
     gsap.set(logoRef.current, { scale: 0.3, opacity: 0 });
     gsap.set(bgGradientRef.current, { clipPath: 'circle(0% at 50% 50%)' });
-    gsap.set(navbarRef.current, { y: -120, opacity: 0 });
+    gsap.set(navbarRef.current, { yPercent: -100, opacity: 0 });
     gsap.set(shockwaveRef.current, { scale: 0.1, opacity: 0 });
     gsap.set(shockwave2Ref.current, { scale: 0.1, opacity: 0 });
     gsap.set(impactFlashRef.current, { scale: 0.5, opacity: 0 });
@@ -118,8 +143,10 @@ function App() {
     }
 
     const tl = gsap.timeline({
+      paused: true,
       defaults: { ease: 'power2.out' }
     });
+    timelineRef.current = tl;
 
     // 1. Gavel base zooms in with a springy bounce
     tl.to(gavelBaseRef.current, { 
@@ -131,7 +158,6 @@ function App() {
 
     // 2. Gavel swings down-left in a dramatic arc (first strike)
     // Tilted so that the mallet head stands vertically, pounding flat on its bottom circular face (y: 65, x: 120, rotation: 85deg)
-    // duration reduced from 0.6 to 0.22 and ease set to power4.in to make it look incredibly fast and powerful
     tl.to(gavelRef.current, { 
       y: 65, 
       x: 120,
@@ -143,6 +169,12 @@ function App() {
 
     // 3. Impact strike 1!
     tl.addLabel('impact1');
+    tl.call(() => {
+      if (strikeAudioRef.current) {
+        strikeAudioRef.current.volume = 1.0;
+        strikeAudioRef.current.play().catch(e => console.log('Strike play failed:', e));
+      }
+    }, null, 'impact1');
     
     // First Rebound (gavel bounces back up-right quickly)
     tl.to(gavelRef.current, {
@@ -244,12 +276,12 @@ function App() {
       );
     }
 
-    // Screen shake 1 (heavy)
+    // Screen shake 1 (heavy - snappy 0.12s duration to not overlap second strike)
     tl.to(contentWrapperRef.current, {
       y: 'random(-12, 12)',
       x: 'random(-12, 12)',
-      duration: 0.05,
-      repeat: 5,
+      duration: 0.04,
+      repeat: 2,
       yoyo: true,
       clearProps: 'x,y'
     }, 'impact1');
@@ -266,8 +298,8 @@ function App() {
 
     // 4. Gavel exits - fades out as it flies up and away to the right (duration reduced for tighter timing)
     tl.to(gavelRef.current, {
-      y: -250,
-      x: 220,
+      y: -window.innerHeight / 2 - 150,
+      x: 300,
       rotation: 40,
       opacity: 0,
       duration: 0.6,
@@ -279,7 +311,7 @@ function App() {
       rotationX: 90,
       y: 60,
       scaleX: 0.95,
-      opacity: 0.4,
+      opacity: 0,
       duration: 0.8,
       ease: 'power2.inOut'
     }, '-=0.1');
@@ -301,18 +333,53 @@ function App() {
 
     // 8. Navbar drops down and logos fade in
     tl.to(navbarRef.current, {
-      y: 0,
+      yPercent: 0,
       opacity: 1,
       duration: 0.8,
       ease: 'power3.out'
     }, '-=0.8');
+    tl.call(() => {
+      if (bgMusicRef.current) {
+        bgMusicRef.current.loop = true;
+        bgMusicRef.current.volume = 0.55;
+        bgMusicRef.current.play().catch(e => console.log('Background music play failed:', e));
+      }
+    }, null, '-=0.8');
 
   }, { scope: containerRef });
+
+  // Handle enter overlay action
+  const handleEnter = () => {
+    // Unlock Web Audio context & pre-play sound files in response to user gesture
+    if (strikeAudioRef.current) {
+      strikeAudioRef.current.play().then(() => {
+        strikeAudioRef.current.pause();
+        strikeAudioRef.current.currentTime = 0;
+      }).catch(e => console.log('Audio unlock failed:', e));
+    }
+
+    if (bgMusicRef.current) {
+      bgMusicRef.current.play().then(() => {
+        bgMusicRef.current.pause();
+        bgMusicRef.current.currentTime = 0;
+      }).catch(e => console.log('BG Music unlock failed:', e));
+    }
+
+    // Fade out enter button screen
+    gsap.to('.enter-overlay', {
+      opacity: 0,
+      duration: 0.6,
+      ease: 'power2.out',
+      onComplete: () => {
+        setStarted(true);
+      }
+    });
+  };
 
   return (
     <div 
       ref={containerRef} 
-      className="relative w-screen h-screen overflow-hidden bg-slate-950 text-white select-none"
+      className="relative w-screen h-screen overflow-hidden bg-black text-white select-none"
     >
       {/* Background Layer 1: Radial Gradient Burgundy to Black */}
       <div 
@@ -320,16 +387,16 @@ function App() {
         className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_#1C010C_0%,_#000000_100%)] w-full h-full"
       />
 
-      {/* Main Content Wrapper (Shakes on impact) */}
-      <div ref={contentWrapperRef} className="relative w-full h-full flex items-center justify-center z-10">
+      {/* Main Content Wrapper (Shakes on impact, provides 3D perspective context) */}
+      <div ref={contentWrapperRef} className="relative w-full h-full flex items-center justify-center z-10 perspective-1000">
         
         {/* Ambient glow behind */}
         <div className="absolute w-[500px] h-[500px] rounded-full bg-amber-500/5 blur-[140px] pointer-events-none z-0" />
 
-        {/* 1. Gavel Base (Sound Block) Container */}
+        {/* 1. Gavel Base (Sound Block) Container (uses preserve-3d) */}
         <div 
           ref={gavelBaseRef} 
-          className="absolute w-56 h-28 z-20 perspective-1000 preserve-3d"
+          className="absolute w-56 h-28 z-20 preserve-3d"
           style={{ transformOrigin: 'center bottom' }}
         >
           <GavelBaseSVG />
@@ -439,6 +506,14 @@ function App() {
           <div className="w-full h-full gold-streak-active" />
         </div>
       </nav>
+
+      {/* 6. Pure Black Screen (Guarantees user gesture to unlock audio, click anywhere to start) */}
+      {!started && (
+        <div 
+          onClick={handleEnter}
+          className="enter-overlay absolute inset-0 z-100 bg-black cursor-pointer select-none"
+        />
+      )}
     </div>
   );
 }
