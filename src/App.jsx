@@ -635,32 +635,35 @@ function App() {
           {/* 5. Top Navbar: Transparent with no border/shadow, sitting neatly at the top of the 16:9 banner */}
           <nav 
             ref={navbarRef} 
-            className="absolute top-0 left-0 w-full z-30 bg-transparent pt-1 px-[22%] flex items-start justify-between pointer-events-none"
+            className="absolute top-0 left-0 w-full z-30 bg-transparent pt-4 px-8 md:px-20 lg:px-28 flex items-start justify-between pointer-events-none"
           >
             {/* Left Sponsor: MUJ Logo */}
-            <div className="flex items-start justify-start w-1/3 pointer-events-auto">
+            {/* Set width to w-1/3 and justified center to shift logo rightwards (towards center) */}
+            <div className="flex items-start justify-center w-1/3 pointer-events-auto">
               <img 
                 src={mujLogo} 
                 alt="MUJ Logo" 
-                className="h-12 sm:h-16 md:h-22 lg:h-26 w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
+                className="h-10 md:h-16 lg:h-20 w-auto object-contain origin-center scale-110 md:scale-450 filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-[1.35]"
               />
             </div>
 
             {/* Center Sponsor: SDG Logo */}
+            {/* Set width to w-1/3 and justified center to keep it in the exact middle */}
             <div className="flex items-start justify-center w-1/3 pointer-events-auto">
               <img 
                 src={sdgLogo} 
                 alt="SDG Logo" 
-                className="h-10 sm:h-14 md:h-20 lg:h-24 w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
+                className="h-8 md:h-12 lg:h-16 w-auto object-contain scale-125 md:scale-450 filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-[1.6]"
               />
             </div>
 
             {/* Right Sponsor: Litmus Logo */}
-            <div className="flex items-start justify-end w-1/3 pointer-events-auto">
+            {/* Set width to w-1/3 and justified center to shift logo leftwards (towards center) */}
+            <div className="flex items-start justify-center w-1/3 pointer-events-auto">
               <img 
                 src={litmusLogo} 
                 alt="Litmus Logo" 
-                className="h-10 sm:h-14 md:h-20 lg:h-24 w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
+                className="h-10 md:h-16 lg:h-20 w-auto object-contain origin-center scale-110 md:scale-125 filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-[1.35]"
               />
             </div>
           </nav>
