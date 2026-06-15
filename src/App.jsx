@@ -651,44 +651,8 @@ function App() {
       {!started && (
         <div 
           onClick={handleEnter}
-          className="enter-overlay absolute inset-0 z-[100] bg-black cursor-pointer select-none flex flex-col items-center justify-center gap-4"
-        >
-          {/* Elegant gold design frame or ornament placeholder */}
-          <div className="relative group flex flex-col items-center justify-center transition-all duration-500 hover:scale-105">
-            {/* Outer glowing border ring */}
-            <div className="absolute inset-0 -m-8 rounded-full border border-amber-500/10 blur-[8px] animate-pulse duration-3000" />
-            
-            {/* Golden Gavel Silhouette / Icon */}
-            <div className="w-16 h-16 mb-4 opacity-80 filter-gold-glow">
-              <svg viewBox="0 0 200 200" className="w-full h-full overflow-visible">
-                <defs>
-                  <linearGradient id="goldGradBtn" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#BF953F" />
-                    <stop offset="25%" stopColor="#FCF6BA" />
-                    <stop offset="50%" stopColor="#B38728" />
-                    <stop offset="75%" stopColor="#FBF5B7" />
-                    <stop offset="100%" stopColor="#AA771C" />
-                  </linearGradient>
-                </defs>
-                <rect x="65" y="130" width="70" height="36" rx="3" fill="url(#goldGradBtn)" />
-                <rect x="91" y="30" width="18" height="100" rx="4" fill="url(#goldGradBtn)" />
-                <circle cx="100" cy="25" r="10" fill="url(#goldGradBtn)" />
-              </svg>
-            </div>
-
-            {/* Elegant text button */}
-            <button className="relative px-8 py-3 rounded-none border border-amber-500/30 bg-amber-950/20 text-[#FFF8E7] font-cinzel text-lg tracking-[0.25em] uppercase transition-all duration-300 hover:border-amber-400 hover:text-amber-200 hover:bg-amber-950/40 shadow-[0_0_15px_rgba(212,175,55,0.05)] hover:shadow-[0_0_25px_rgba(212,175,55,0.25)] pointer-events-none">
-              Click to Start
-              {/* Subtle gold lines at corners */}
-              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-amber-400" />
-              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-amber-400" />
-              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-amber-400" />
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-amber-400" />
-            </button>
-
-
-          </div>
-        </div>
+          className="enter-overlay absolute inset-0 z-[100] bg-black cursor-pointer select-none"
+        />
       )}
     </div>
   );
