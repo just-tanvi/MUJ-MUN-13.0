@@ -378,6 +378,23 @@ function App() {
       ease: 'power2.in'
     }, '+=1.6');
 
+    // 6c. Tagline 3: #break the silence
+    tl.fromTo('.tagline-3', {
+      opacity: 0,
+      y: 10
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power2.out'
+    });
+    tl.to('.tagline-3', {
+      opacity: 0,
+      y: -15,
+      duration: 0.4,
+      ease: 'power2.in'
+    }, '+=1.4');
+
 
 
     // 6d. Tagline 4: coming soon
@@ -556,6 +573,10 @@ function App() {
           {/* Tagline 2: MUJMUN13.0 */}
           <div className="tagline-2 absolute text-amber-400 text-6xl sm:text-7xl md:text-[8rem] lg:text-[11rem] font-cinzel font-bold tracking-[0.1em] uppercase text-center drop-shadow-[0_10px_30px_rgba(212,175,55,0.5)] opacity-0 pointer-events-none filter-gold-glow">
             MUJMUN13.0
+          </div>
+          {/* Tagline 3: #break the silence */}
+          <div className="tagline-3 absolute text-amber-100 text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-outfit font-light tracking-[0.2em] lowercase text-center max-w-4xl px-4 drop-shadow-[0_4px_10px_rgba(212,175,55,0.3)] opacity-0 pointer-events-none">
+            #break the silence
           </div>
 
           {/* Tagline 4: coming soon */}
