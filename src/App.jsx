@@ -5,6 +5,7 @@ import mujLogo from './assets/muj_logo.png';
 import sdgLogo from './assets/sdg_logo.png';
 import litmusLogo from './assets/litmus_logo.png';
 import mujmunLogo from './assets/MUJMUN_logo.png';
+import heritageBg from './assets/heritage_bg.jpg';
 import strikeSound from './assets/gavel-hammered-in-court-sound-effect_Ot6CjSaS.mp3';
 import noiseSound from './assets/noise.mp3';
 
@@ -103,6 +104,7 @@ function App() {
   const impactFlashRef = useRef(null);
   const particlesRef = useRef(null);
   const contentWrapperRef = useRef(null);
+  const htmlContentRef = useRef(null);
 
   // Audio refs & states to unlock sound context
   const [started, setStarted] = useState(false);
@@ -127,6 +129,7 @@ function App() {
   }, [started]);
 
   useGSAP(() => {
+    console.log('useGSAP hook executed, initializing GSAP state and timeline');
     // Initial States
     // Gavel starts raised on the right, tilted up (45deg) and transparent
     // Gavel starts raised on the right, tilted up (45deg) and transparent
@@ -138,6 +141,7 @@ function App() {
     gsap.set(shockwaveRef.current, { scale: 0.1, opacity: 0 });
     gsap.set(shockwave2Ref.current, { scale: 0.1, opacity: 0 });
     gsap.set(impactFlashRef.current, { scale: 0.5, opacity: 0 });
+    gsap.set(htmlContentRef.current, { opacity: 0 });
     if (particlesRef.current) {
       gsap.set(particlesRef.current.children, { scale: 0, opacity: 0 });
     }
@@ -171,7 +175,7 @@ function App() {
     tl.addLabel('impact1');
     tl.call(() => {
       if (strikeAudioRef.current) {
-        strikeAudioRef.current.volume = 1.0;
+        strikeAudioRef.current.volume = 0.45;
         strikeAudioRef.current.play().catch(e => console.log('Strike play failed:', e));
       }
     }, null, 'impact1');
@@ -323,13 +327,88 @@ function App() {
       duration: 1.0,
       ease: 'elastic.out(1, 0.75)'
     }, '-=0.6');
+    // Start background music immediately as the central logo appears
+    tl.call(() => {
+      if (bgMusicRef.current) {
+        bgMusicRef.current.loop = true;
+        bgMusicRef.current.volume = 0.25;
+        bgMusicRef.current.play().catch(e => console.log('Background music play failed:', e));
+      }
+    }, null, '-=0.6');
 
-    // 7. Background reveal: Radial gradient expands from center outward
+    // Fade out Central Logo
+    tl.to(logoRef.current, {
+      scale: 0.8,
+      opacity: 0,
+      duration: 0.5,
+      ease: 'power2.in'
+    }, '+=1.0');
+
+    // 6a. Tagline 1: Greatest conference in rajasthan
+    tl.fromTo('.tagline-1', {
+      opacity: 0,
+      y: 15
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power2.out'
+    });
+    tl.to('.tagline-1', {
+      opacity: 0,
+      y: -20,
+      duration: 0.4,
+      ease: 'power2.in'
+    }, '+=1.4');
+
+    // 6b. Tagline 2: MUJMUN13.0
+    tl.fromTo('.tagline-2', {
+      opacity: 0,
+      scale: 0.7
+    }, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.9,
+      ease: 'back.out(1.2)'
+    });
+    tl.to('.tagline-2', {
+      opacity: 0,
+      scale: 1.1,
+      duration: 0.4,
+      ease: 'power2.in'
+    }, '+=1.6');
+
+
+
+    // 6d. Tagline 4: coming soon
+    tl.fromTo('.tagline-4', {
+      opacity: 0,
+      scale: 0.85
+    }, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.8,
+      ease: 'power2.out'
+    });
+    tl.to('.tagline-4', {
+      opacity: 0,
+      scale: 1.05,
+      duration: 0.4,
+      ease: 'power2.in'
+    }, '+=1.4');
+
+    // 7. Reveal HTML content and expand radial gradient
+    tl.to(htmlContentRef.current, {
+      opacity: 1,
+      duration: 1.2,
+      ease: 'power2.out'
+    }, '+=0.1');
+
     tl.to(bgGradientRef.current, {
       clipPath: 'circle(150% at 50% 50%)',
       duration: 1.5,
       ease: 'power3.inOut'
-    }, '-=0.5');
+    }, '-=1.2');
 
     // 8. Navbar drops down and logos fade in
     tl.to(navbarRef.current, {
@@ -337,14 +416,7 @@ function App() {
       opacity: 1,
       duration: 0.8,
       ease: 'power3.out'
-    }, '-=0.8');
-    tl.call(() => {
-      if (bgMusicRef.current) {
-        bgMusicRef.current.loop = true;
-        bgMusicRef.current.volume = 0.55;
-        bgMusicRef.current.play().catch(e => console.log('Background music play failed:', e));
-      }
-    }, null, '-=0.8');
+    }, '-=1.0');
 
   }, { scope: containerRef });
 
@@ -376,6 +448,8 @@ function App() {
     });
   };
 
+
+
   return (
     <div 
       ref={containerRef} 
@@ -405,28 +479,28 @@ function App() {
         {/* 2a. Shockwave 1 (Primary impact ring) */}
         <div 
           ref={shockwaveRef} 
-          className="absolute w-48 h-48 rounded-full border-2 border-amber-300/40 z-25 pointer-events-none"
+          className="absolute w-48 h-48 rounded-full border-2 border-amber-300/40 z-[25] pointer-events-none"
           style={{ transformOrigin: 'center center' }}
         />
 
         {/* 2b. Shockwave 2 (Secondary impact ring) */}
         <div 
           ref={shockwave2Ref} 
-          className="absolute w-48 h-48 rounded-full border border-amber-400/20 z-25 pointer-events-none"
+          className="absolute w-48 h-48 rounded-full border border-amber-400/20 z-[25] pointer-events-none"
           style={{ transformOrigin: 'center center' }}
         />
 
         {/* 2c. Impact Flash Glow */}
         <div 
           ref={impactFlashRef} 
-          className="absolute w-[300px] h-[300px] rounded-full bg-amber-500/15 blur-3xl pointer-events-none z-15"
+          className="absolute w-[300px] h-[300px] rounded-full bg-amber-500/15 blur-3xl pointer-events-none z-[15]"
           style={{ transformOrigin: 'center center' }}
         />
 
         {/* 2d. Radiant Spark Particles */}
         <div 
           ref={particlesRef} 
-          className="absolute w-4 h-4 z-26 pointer-events-none"
+          className="absolute w-4 h-4 z-[26] pointer-events-none"
           style={{ transformOrigin: 'center center' }}
         >
           {[...Array(10)].map((_, i) => (
@@ -465,54 +539,156 @@ function App() {
             />
             {/* Ambient golden ring glow */}
             <div className="absolute inset-0 -m-6 rounded-full border border-amber-500/20 radial-glow pointer-events-none animate-pulse duration-3000" />
+        </div>
+      </div>
+    </div>
+
+      {/* Taglines Transition Layer */}
+      <div 
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        style={{ zIndex: 45 }}
+      >
+        <div className="relative flex flex-col items-center justify-center text-center px-4 w-full h-full">
+          {/* Tagline 1: GREATEST CONFERENCE IN RAJASTHAN */}
+          <div className="tagline-1 absolute text-[#FFF8E7] text-lg sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-cinzel tracking-[0.2em] uppercase text-center whitespace-nowrap drop-shadow-[0_4px_10px_rgba(212,175,55,0.3)] opacity-0 pointer-events-none">
+            GREATEST CONFERENCE IN RAJASTHAN
+          </div>
+          {/* Tagline 2: MUJMUN13.0 */}
+          <div className="tagline-2 absolute text-amber-400 text-6xl sm:text-7xl md:text-[8rem] lg:text-[11rem] font-cinzel font-bold tracking-[0.1em] uppercase text-center drop-shadow-[0_10px_30px_rgba(212,175,55,0.5)] opacity-0 pointer-events-none filter-gold-glow">
+            MUJMUN13.0
+          </div>
+
+          {/* Tagline 4: coming soon */}
+          <div className="tagline-4 absolute text-amber-300 text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-cinzel tracking-[0.3em] uppercase text-center drop-shadow-[0_8px_20px_rgba(212,175,55,0.4)] opacity-0 pointer-events-none">
+            coming soon
           </div>
         </div>
       </div>
 
-      {/* 5. Top Navbar: Glassmorphic with Golden Streak bottom border */}
-      <nav 
-        ref={navbarRef} 
-        className="absolute top-0 left-0 w-full z-50 bg-black/45 backdrop-blur-lg border-b border-white/5 py-3 px-8 md:px-16 flex items-center justify-between shadow-[0_4px_30px_rgba(0,0,0,0.8)]"
+      {/* 7. HTML File Content (revealed at the end) */}
+      <div 
+        ref={htmlContentRef} 
+        className="absolute inset-0 z-35 opacity-0 w-full h-full flex items-start justify-center overflow-hidden bg-[#1a0005]"
+        style={{ backgroundColor: '#1a0005' }}
       >
-        {/* Left Sponsor: MUJ Logo */}
-        <div className="flex items-center justify-start h-12 md:h-16 w-1/4">
-          <img 
-            src={mujLogo} 
-            alt="MUJ Logo" 
-            className="h-full w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_2px_8px_rgba(212,175,55,0.25)] transition-all duration-300"
-          />
-        </div>
+        <div 
+          className="relative w-full h-full"
+        >
+          {/* Glow layer — behind the photo */}
+          <svg className="absolute inset-0 w-full h-full z-10" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="rg1" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#fff8e7" stopOpacity="1"/>
+                <stop offset="60%" stopColor="#ffe8a0" stopOpacity="0.6"/>
+                <stop offset="100%" stopColor="#ffcc55" stopOpacity="0"/>
+              </radialGradient>
+              <radialGradient id="rg2" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#fff5d6" stopOpacity="0.8"/>
+                <stop offset="50%" stopColor="#ffd97a" stopOpacity="0.4"/>
+                <stop offset="100%" stopColor="#ffbb33" stopOpacity="0"/>
+              </radialGradient>
+              <radialGradient id="rg3" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#fff0c0" stopOpacity="0.5"/>
+                <stop offset="40%" stopColor="#ffcc55" stopOpacity="0.2"/>
+                <stop offset="100%" stopColor="#aa6600" stopOpacity="0"/>
+              </radialGradient>
+              <radialGradient id="rg4" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#ffe8a0" stopOpacity="0.25"/>
+                <stop offset="30%" stopColor="#cc8800" stopOpacity="0.1"/>
+                <stop offset="100%" stopColor="#660000" stopOpacity="0"/>
+              </radialGradient>
+            </defs>
+            <ellipse className="g4" cx="50" cy="33" rx="40" ry="32" fill="url(#rg4)"/>
+            <ellipse className="g3" cx="50" cy="33" rx="30" ry="24" fill="url(#rg3)"/>
+            <ellipse className="g2" cx="50" cy="33" rx="22" ry="17" fill="url(#rg2)"/>
+            <ellipse className="g1" cx="50" cy="33" rx="14" ry="11" fill="url(#rg1)"/>
+          </svg>
 
-        {/* Center Sponsor: SDG Logo */}
-        <div className="flex items-center justify-center h-10 md:h-14 w-2/4">
+          {/* Photo on top — leaders naturally occlude the glow */}
           <img 
-            src={sdgLogo} 
-            alt="SDG Logo" 
-            className="h-full w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_2px_8px_rgba(212,175,55,0.25)] transition-all duration-300"
+            className="w-full h-full object-cover block relative z-20" 
+            src={heritageBg} 
+            alt="MUJ MUN 13.0 leaders" 
           />
-        </div>
 
-        {/* Right Sponsor: Litmus Logo */}
-        <div className="flex items-center justify-end h-12 md:h-16 w-1/4">
-          <img 
-            src={litmusLogo} 
-            alt="Litmus Logo" 
-            className="h-full w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_2px_8px_rgba(212,175,55,0.25)] transition-all duration-300"
-          />
-        </div>
+          {/* 5. Top Navbar: Transparent with no border/shadow, sitting neatly at the top of the 16:9 banner */}
+          <nav 
+            ref={navbarRef} 
+            className="absolute top-0 left-0 w-full z-30 bg-transparent pt-1 px-[22%] flex items-start justify-between pointer-events-none"
+          >
+            {/* Left Sponsor: MUJ Logo */}
+            <div className="flex items-start justify-start w-1/3 pointer-events-auto">
+              <img 
+                src={mujLogo} 
+                alt="MUJ Logo" 
+                className="h-12 sm:h-16 md:h-22 lg:h-26 w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
+              />
+            </div>
 
-        {/* Golden Streak Line at the very bottom */}
-        <div className="absolute bottom-0 left-0 w-full h-[2px] overflow-hidden bg-amber-500/10">
-          <div className="w-full h-full gold-streak-active" />
+            {/* Center Sponsor: SDG Logo */}
+            <div className="flex items-start justify-center w-1/3 pointer-events-auto">
+              <img 
+                src={sdgLogo} 
+                alt="SDG Logo" 
+                className="h-10 sm:h-14 md:h-20 lg:h-24 w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
+              />
+            </div>
+
+            {/* Right Sponsor: Litmus Logo */}
+            <div className="flex items-start justify-end w-1/3 pointer-events-auto">
+              <img 
+                src={litmusLogo} 
+                alt="Litmus Logo" 
+                className="h-10 sm:h-14 md:h-20 lg:h-24 w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
+              />
+            </div>
+          </nav>
         </div>
-      </nav>
+      </div>
+
 
       {/* 6. Pure Black Screen (Guarantees user gesture to unlock audio, click anywhere to start) */}
       {!started && (
         <div 
           onClick={handleEnter}
-          className="enter-overlay absolute inset-0 z-100 bg-black cursor-pointer select-none"
-        />
+          className="enter-overlay absolute inset-0 z-[100] bg-black cursor-pointer select-none flex flex-col items-center justify-center gap-4"
+        >
+          {/* Elegant gold design frame or ornament placeholder */}
+          <div className="relative group flex flex-col items-center justify-center transition-all duration-500 hover:scale-105">
+            {/* Outer glowing border ring */}
+            <div className="absolute inset-0 -m-8 rounded-full border border-amber-500/10 blur-[8px] animate-pulse duration-3000" />
+            
+            {/* Golden Gavel Silhouette / Icon */}
+            <div className="w-16 h-16 mb-4 opacity-80 filter-gold-glow">
+              <svg viewBox="0 0 200 200" className="w-full h-full overflow-visible">
+                <defs>
+                  <linearGradient id="goldGradBtn" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#BF953F" />
+                    <stop offset="25%" stopColor="#FCF6BA" />
+                    <stop offset="50%" stopColor="#B38728" />
+                    <stop offset="75%" stopColor="#FBF5B7" />
+                    <stop offset="100%" stopColor="#AA771C" />
+                  </linearGradient>
+                </defs>
+                <rect x="65" y="130" width="70" height="36" rx="3" fill="url(#goldGradBtn)" />
+                <rect x="91" y="30" width="18" height="100" rx="4" fill="url(#goldGradBtn)" />
+                <circle cx="100" cy="25" r="10" fill="url(#goldGradBtn)" />
+              </svg>
+            </div>
+
+            {/* Elegant text button */}
+            <button className="relative px-8 py-3 rounded-none border border-amber-500/30 bg-amber-950/20 text-[#FFF8E7] font-cinzel text-lg tracking-[0.25em] uppercase transition-all duration-300 hover:border-amber-400 hover:text-amber-200 hover:bg-amber-950/40 shadow-[0_0_15px_rgba(212,175,55,0.05)] hover:shadow-[0_0_25px_rgba(212,175,55,0.25)] pointer-events-none">
+              Click to Start
+              {/* Subtle gold lines at corners */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-amber-400" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-amber-400" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-amber-400" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-amber-400" />
+            </button>
+
+
+          </div>
+        </div>
       )}
     </div>
   );
