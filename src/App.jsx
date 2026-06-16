@@ -344,6 +344,13 @@ function App() {
       ease: 'power2.in'
     }, '+=1.0');
 
+    // Transition background color from black to dark maroon
+    tl.to(containerRef.current, {
+      backgroundColor: '#120003',
+      duration: 1.5,
+      ease: 'power2.out'
+    }, '-=0.5');
+
     // 6a. Tagline 1: Greatest conference in rajasthan
     tl.fromTo('.tagline-1', {
       opacity: 0,
@@ -360,6 +367,13 @@ function App() {
       duration: 0.4,
       ease: 'power2.in'
     }, '+=1.4');
+
+    // Transition background color to rich dark maroon
+    tl.to(containerRef.current, {
+      backgroundColor: '#260007',
+      duration: 1.5,
+      ease: 'power2.out'
+    }, '-=0.4');
 
     // 6b. Tagline 2: MUJMUN13.0
     tl.fromTo('.tagline-2', {
@@ -378,7 +392,14 @@ function App() {
       ease: 'power2.in'
     }, '+=1.6');
 
-    // 6c. Tagline 3: #break the silence
+    // Transition background color to dark red
+    tl.to(containerRef.current, {
+      backgroundColor: '#38000a',
+      duration: 1.5,
+      ease: 'power2.out'
+    }, '-=0.4');
+
+    // 6c. Tagline 3: #breakthesilence
     tl.fromTo('.tagline-3', {
       opacity: 0,
       y: 10
@@ -395,7 +416,12 @@ function App() {
       ease: 'power2.in'
     }, '+=1.4');
 
-
+    // Transition background color to a warmer dark red
+    tl.to(containerRef.current, {
+      backgroundColor: '#2b0008',
+      duration: 1.5,
+      ease: 'power2.out'
+    }, '-=0.4');
 
     // 6d. Tagline 4: coming soon
     tl.fromTo('.tagline-4', {
@@ -413,6 +439,13 @@ function App() {
       duration: 0.4,
       ease: 'power2.in'
     }, '+=1.4');
+
+    // Transition background color to final maroon (#1a0005)
+    tl.to(containerRef.current, {
+      backgroundColor: '#1a0005',
+      duration: 1.5,
+      ease: 'power2.out'
+    }, '-=0.4');
 
     // 7. Reveal HTML content and expand radial gradient
     tl.to(htmlContentRef.current, {
@@ -472,10 +505,10 @@ function App() {
       ref={containerRef} 
       className="relative w-screen h-screen overflow-hidden bg-black text-white select-none"
     >
-      {/* Background Layer 1: Radial Gradient Burgundy to Black */}
+      {/* Background Layer 1: Radial Gradient Burgundy to Transparent */}
       <div 
         ref={bgGradientRef} 
-        className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_#1C010C_0%,_#000000_100%)] w-full h-full"
+        className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_#1C010C_0%,_transparent_100%)] w-full h-full"
       />
 
       {/* Main Content Wrapper (Shakes on impact, provides 3D perspective context) */}
@@ -574,9 +607,9 @@ function App() {
           <div className="tagline-2 absolute text-amber-400 text-6xl sm:text-7xl md:text-[8rem] lg:text-[11rem] font-cinzel font-bold tracking-[0.1em] uppercase text-center drop-shadow-[0_10px_30px_rgba(212,175,55,0.5)] opacity-0 pointer-events-none filter-gold-glow">
             MUJMUN13.0
           </div>
-          {/* Tagline 3: #break the silence */}
-          <div className="tagline-3 absolute text-amber-100 text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-outfit font-light tracking-[0.2em] lowercase text-center max-w-4xl px-4 drop-shadow-[0_4px_10px_rgba(212,175,55,0.3)] opacity-0 pointer-events-none">
-            #break the silence
+          {/* Tagline 3: #breakthesilence */}
+          <div className="tagline-3 absolute text-amber-100 text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-cinzel tracking-[0.2em] uppercase text-center max-w-4xl px-4 drop-shadow-[0_4px_10px_rgba(212,175,55,0.3)] opacity-0 pointer-events-none">
+            #breakthesilence
           </div>
 
           {/* Tagline 4: coming soon */}
@@ -589,53 +622,21 @@ function App() {
       {/* 7. HTML File Content (revealed at the end) */}
       <div 
         ref={htmlContentRef} 
-        className="absolute inset-0 z-35 opacity-0 w-full h-full flex items-start justify-center overflow-hidden bg-[#1a0005]"
-        style={{ backgroundColor: '#1a0005' }}
+        className="absolute inset-0 z-35 opacity-0 w-full h-full flex items-center justify-center overflow-hidden bg-[#1c0508]"
+        style={{ backgroundColor: '#1c0508' }}
       >
         <div 
-          className="relative w-full h-full"
+          className="banner"
+          style={{ backgroundImage: `url(${heritageBg})` }}
         >
-          {/* Glow layer — behind the photo */}
-          <svg className="absolute inset-0 w-full h-full z-10" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="rg1" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#fff8e7" stopOpacity="1"/>
-                <stop offset="60%" stopColor="#ffe8a0" stopOpacity="0.6"/>
-                <stop offset="100%" stopColor="#ffcc55" stopOpacity="0"/>
-              </radialGradient>
-              <radialGradient id="rg2" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#fff5d6" stopOpacity="0.8"/>
-                <stop offset="50%" stopColor="#ffd97a" stopOpacity="0.4"/>
-                <stop offset="100%" stopColor="#ffbb33" stopOpacity="0"/>
-              </radialGradient>
-              <radialGradient id="rg3" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#fff0c0" stopOpacity="0.5"/>
-                <stop offset="40%" stopColor="#ffcc55" stopOpacity="0.2"/>
-                <stop offset="100%" stopColor="#aa6600" stopOpacity="0"/>
-              </radialGradient>
-              <radialGradient id="rg4" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#ffe8a0" stopOpacity="0.25"/>
-                <stop offset="30%" stopColor="#cc8800" stopOpacity="0.1"/>
-                <stop offset="100%" stopColor="#660000" stopOpacity="0"/>
-              </radialGradient>
-            </defs>
-            <ellipse className="g4" cx="50" cy="33" rx="40" ry="32" fill="url(#rg4)"/>
-            <ellipse className="g3" cx="50" cy="33" rx="30" ry="24" fill="url(#rg3)"/>
-            <ellipse className="g2" cx="50" cy="33" rx="22" ry="17" fill="url(#rg2)"/>
-            <ellipse className="g1" cx="50" cy="33" rx="14" ry="11" fill="url(#rg1)"/>
-          </svg>
+          {/* Texts on top of the background */}
+          <div className="banner-title">MUJ MUN 13.0</div>
+          <div className="banner-subtitle">COMING SOON</div>
 
-          {/* Photo on top — leaders naturally occlude the glow */}
-          <img 
-            className="w-full h-full object-cover block relative z-20" 
-            src={heritageBg} 
-            alt="MUJ MUN 13.0 leaders" 
-          />
-
-          {/* 5. Top Navbar: Transparent with no border/shadow, sitting neatly at the top of the 16:9 banner */}
+          {/* 5. Top Navbar: Transparent with no border/shadow, sitting neatly at the top of the banner */}
           <nav 
             ref={navbarRef} 
-            className="absolute top-0 left-0 w-full z-30 bg-transparent pt-4 px-8 md:px-20 lg:px-28 flex items-start justify-between pointer-events-none"
+            className="absolute top-0 left-0 w-full z-30 bg-transparent pt-[1.5cqw] px-[22cqw] flex items-start justify-between pointer-events-none"
           >
             {/* Left Sponsor: MUJ Logo */}
             {/* Set width to w-1/3 and justified center to shift logo rightwards (towards center) */}
@@ -643,7 +644,7 @@ function App() {
               <img 
                 src={mujLogo} 
                 alt="MUJ Logo" 
-                className="h-10 md:h-16 lg:h-20 w-auto object-contain origin-center scale-110 md:scale-450 filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-[1.35]"
+                className="h-[7cqw] w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_0.2cqw_0.6cqw_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
               />
             </div>
 
@@ -653,7 +654,7 @@ function App() {
               <img 
                 src={sdgLogo} 
                 alt="SDG Logo" 
-                className="h-8 md:h-12 lg:h-16 w-auto object-contain scale-125 md:scale-450 filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-[1.6]"
+                className="h-[6.2cqw] w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_0.2cqw_0.6cqw_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
               />
             </div>
 
@@ -663,7 +664,7 @@ function App() {
               <img 
                 src={litmusLogo} 
                 alt="Litmus Logo" 
-                className="h-10 md:h-16 lg:h-20 w-auto object-contain origin-center scale-110 md:scale-125 filter brightness-110 contrast-105 drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-[1.35]"
+                className="h-[6.2cqw] w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_0.2cqw_0.6cqw_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
               />
             </div>
           </nav>
