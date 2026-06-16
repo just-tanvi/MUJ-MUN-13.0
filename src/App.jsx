@@ -600,20 +600,20 @@ function App() {
       >
         <div className="relative flex flex-col items-center justify-center text-center px-4 w-full h-full">
           {/* Tagline 1: GREATEST CONFERENCE IN RAJASTHAN */}
-          <div className="tagline-1 absolute text-[#FFF8E7] text-lg sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-cinzel tracking-[0.2em] uppercase text-center whitespace-nowrap drop-shadow-[0_4px_10px_rgba(212,175,55,0.3)] opacity-0 pointer-events-none">
+          <div className="tagline-1 absolute text-[#FFF8E7] text-[clamp(0.55rem,2.8vw,3rem)] tracking-[0.1em] sm:tracking-[0.2em] sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-cinzel uppercase text-center whitespace-nowrap drop-shadow-[0_4px_10px_rgba(212,175,55,0.3)] opacity-0 pointer-events-none">
             GREATEST CONFERENCE IN RAJASTHAN
           </div>
           {/* Tagline 2: MUJMUN13.0 */}
-          <div className="tagline-2 absolute text-amber-400 text-6xl sm:text-7xl md:text-[8rem] lg:text-[11rem] font-cinzel font-bold tracking-[0.1em] uppercase text-center drop-shadow-[0_10px_30px_rgba(212,175,55,0.5)] opacity-0 pointer-events-none filter-gold-glow">
+          <div className="tagline-2 absolute text-amber-400 text-[clamp(1.8rem,8vw,8rem)] tracking-[0.05em] sm:tracking-[0.1em] sm:text-7xl md:text-[8rem] lg:text-[11rem] font-cinzel font-bold uppercase text-center drop-shadow-[0_10px_30px_rgba(212,175,55,0.5)] opacity-0 pointer-events-none filter-gold-glow">
             MUJMUN13.0
           </div>
           {/* Tagline 3: #breakthesilence */}
-          <div className="tagline-3 absolute text-amber-100 text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-cinzel tracking-[0.2em] uppercase text-center max-w-4xl px-4 drop-shadow-[0_4px_10px_rgba(212,175,55,0.3)] opacity-0 pointer-events-none">
+          <div className="tagline-3 absolute text-amber-100 text-[clamp(1rem,4.5vw,4rem)] tracking-[0.1em] sm:tracking-[0.2em] sm:text-3xl md:text-5xl lg:text-6xl font-cinzel uppercase text-center max-w-4xl px-4 drop-shadow-[0_4px_10px_rgba(212,175,55,0.3)] opacity-0 pointer-events-none">
             #breakthesilence
           </div>
 
           {/* Tagline 4: coming soon */}
-          <div className="tagline-4 absolute text-amber-300 text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-cinzel tracking-[0.3em] uppercase text-center drop-shadow-[0_8px_20px_rgba(212,175,55,0.4)] opacity-0 pointer-events-none">
+          <div className="tagline-4 absolute text-amber-300 text-[clamp(1.2rem,5vw,5rem)] tracking-[0.15em] sm:tracking-[0.3em] sm:text-4xl md:text-6xl lg:text-7xl font-cinzel uppercase text-center drop-shadow-[0_8px_20px_rgba(212,175,55,0.4)] opacity-0 pointer-events-none">
             coming soon
           </div>
         </div>
@@ -636,7 +636,7 @@ function App() {
           {/* 5. Top Navbar: Transparent with no border/shadow, sitting neatly at the top of the banner */}
           <nav 
             ref={navbarRef} 
-            className="absolute top-0 left-0 w-full z-30 bg-transparent pt-[1.5cqw] px-[22cqw] flex items-start justify-between pointer-events-none"
+            className="absolute top-0 left-0 w-full z-30 bg-transparent pt-4 px-4 sm:pt-[1.5cqw] sm:px-[22cqw] flex items-start justify-between pointer-events-none"
           >
             {/* Left Sponsor: MUJ Logo */}
             {/* Set width to w-1/3 and justified center to shift logo rightwards (towards center) */}
@@ -644,7 +644,7 @@ function App() {
               <img 
                 src={mujLogo} 
                 alt="MUJ Logo" 
-                className="h-[7cqw] w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_0.2cqw_0.6cqw_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
+                className="h-10 sm:h-[7cqw] w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_0.2cqw_0.6cqw_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
               />
             </div>
 
@@ -654,7 +654,7 @@ function App() {
               <img 
                 src={sdgLogo} 
                 alt="SDG Logo" 
-                className="h-[6.2cqw] w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_0.2cqw_0.6cqw_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
+                className="h-9 sm:h-[6.2cqw] w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_0.2cqw_0.6cqw_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
               />
             </div>
 
@@ -664,7 +664,7 @@ function App() {
               <img 
                 src={litmusLogo} 
                 alt="Litmus Logo" 
-                className="h-[6.2cqw] w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_0.2cqw_0.6cqw_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
+                className="h-9 sm:h-[6.2cqw] w-auto max-w-full object-contain filter brightness-110 contrast-105 drop-shadow-[0_0.2cqw_0.6cqw_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-105"
               />
             </div>
           </nav>

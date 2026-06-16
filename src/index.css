@@ -186,3 +186,14 @@ body {
   line-height: 1;
 }
 
+@media (max-width: 640px) {
+  .banner-title {
+    font-size: 8vw;
+    top: 70%;
+  }
+  .banner-subtitle {
+    font-size: 3.5vw;
+    top: 78%;
+  }
+}
+
